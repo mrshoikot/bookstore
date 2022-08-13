@@ -112,7 +112,7 @@ class BookController extends BaseController
             'key' => 'required',
         ]);
 
-        $books = Book::where('name', 'like', '%' . $request->key . '%')->get();
+        $books = Book::where('name', 'like', '%' . $request->key . '%')->with('user')->get();
         return $this->sendResponse($books, 'Book retreaved successfully.');
     }
 }
