@@ -15,3 +15,9 @@ mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css', [
         //
     ]);
+
+
+mix.copy('resources/js/bostorek', 'public/js/bostorek')
+mix.copy('resources/css/bostorek', 'public/css/bostorek')
+mix.copy('resources/images', 'public/images')
+mix.copy('resources/fonts', 'public/fonts')
