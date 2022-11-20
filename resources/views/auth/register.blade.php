@@ -12,6 +12,20 @@
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
+            <div class="md:items-center mb-6">
+                <div class="md:w-1/3 mb-3">
+                    <label class="block text-gray-500 font-bold mb-1 md:mb-0" for="inline-password">
+                        User Type
+                    </label>
+                </div>
+                <div class="mt-3">
+                    <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state" name="role_id">
+                        <option value="2">Individual</option>
+                        <option value="3">Business</option>
+                    </select>
+                </div>
+            </div>
+
             <!-- Name -->
             <div>
                 <x-label for="name" :value="__('Name')" />
