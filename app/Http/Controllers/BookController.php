@@ -15,9 +15,28 @@ class BookController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->sendResponse(Book::with('user')->get(), 'Books reterived successfully.');
+        if (0 === strpos($request->headers->get('Content-Type'), 'application/json'))
+        {
+            return $this->sendResponse(Book::with('user')->get(), 'Books reterived successfully.');
+        }else{
+            if($request->search && $request->search != ''){
+                $books = Book::where('name', 'like', '%' . $request->search . '%')->get();
+            }else{
+                $books = Book::all();
+            }
+            return view('books')->with('books', $books);
+        }
+    }
+
+    public function dashboard(Request $request) {
+        if($request->search && $request->search != ''){
+            $books = Book::where('name', 'like', '%' . $request->search . '%')->where('user_id', Auth::id())->get();
+        }else{
+            $books = Auth::user()->books;
+        }
+        return view('dashboard')->with('books', $books);
     }
 
     /**
@@ -27,7 +46,7 @@ class BookController extends BaseController
      */
     public function create()
     {
-        //
+        return view('book-create');
     }
 
     /**
@@ -43,16 +62,49 @@ class BookController extends BaseController
         $validator = Validator::make($input, [
             'name' => 'required',
             'writer' => 'required',
-            'category' => 'required'
+            'category' => 'required',
+            'type' => 'required',
+            'photo' => 'image|max:2048'
         ]);
    
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
 
+        $photo = $request->photo;
+
+        if (isset($photo)) {
+
+            // Get Filename with the extension
+            $filenameWithExt = $photo->getClientOriginalName();
+
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+
+            // Get just extenstion
+            $extension = $photo->getClientOriginalExtension();
+
+            if ($extension == '') {
+                $extension = 'png';
+            }
+
+            // Filename to store
+            $filenameToStore = $filename . '_' . time() . '.' . $extension;
+
+            // Upload Image
+            $photo->storeAs('public/photos', $filenameToStore);
+            $input['photo'] = $filenameToStore;
+        }
+
         $input['user_id'] = Auth::id();
         $book = Book::create($input);
-        return $this->sendResponse($book, 'Book created successfully.');
+
+        if (0 === strpos($request->headers->get('Content-Type'), 'application/json'))
+        {
+            return $this->sendResponse($book, 'Book created successfully.');
+        }else{
+            return redirect('dashboard');
+        }
     }
 
     /**
@@ -61,9 +113,14 @@ class BookController extends BaseController
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function show(Book $book)
+    public function show(Book $book, Request $request)
     {
-        return $this->sendResponse($book->with('user')->findOrFail($book->id), 'Book retrieved successfully.');
+        if (0 === strpos($request->headers->get('Content-Type'), 'application/json'))
+        {
+            return $this->sendResponse($book->with('user')->findOrFail($book->id), 'Book retrieved successfully.');
+        }else{
+            return view('book', compact('book'));
+        }
     }
 
     /**
@@ -74,7 +131,7 @@ class BookController extends BaseController
      */
     public function edit(Book $book)
     {
-        //
+        return view('book-edit', compact('book'));
     }
 
     /**
@@ -86,7 +143,22 @@ class BookController extends BaseController
      */
     public function update(Request $request, Book $book)
     {
-        //
+        $input = $request->all();
+   
+        $validator = Validator::make($input, [
+            'name' => 'required',
+            'writer' => 'required',
+            'category' => 'required',
+            'type' => 'required',
+        ]);
+   
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());       
+        }
+
+        $book->update($input);
+
+        return redirect()->route('books.show', $book);
     }
 
     /**
@@ -95,9 +167,11 @@ class BookController extends BaseController
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Book $book)
+    public function removeBook($book)
     {
-        //
+        $book = Book::find($book);
+        $book->delete();
+        return redirect()->route('dashboard');
     }
 
     /**

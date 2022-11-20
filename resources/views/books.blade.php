@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex justify-between align-middle">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Browse Books') }}
+                {{ __('My Books') }}
             </h2>
             <a href="{{ route('books.create') }}" type="button"
                 class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">Post
@@ -15,7 +15,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    
+
+
                     <form class="max-w-6xl mx-auto mb-5">   
                         <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                         <div class="relative">
@@ -26,14 +27,13 @@
                             <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-black hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                         </div>
                     </form>
-
-
+                    
                     <div class="grid grid-cols-3 gap-4">
                         @foreach ($books as $book)
                         <div class="flex flex-col shadow-xl bg-white">
                             <div class="flex flex-col relative">
                                 <div class="aspect-video flex items-center" style="text-align: center">
-                                    <img class="mx-auto" src="{{ $book->photo ? asset('storage/photos/'.$book->photo) : asset('/images/logo.png') }}" alt="{{$book->name}}" >
+                                    <img style="max-height: 270px; {{$book->photo ? "width: 100%" : ""}}" class="mx-auto" src="{{ $book->photo ? asset('storage/photos/'.$book->photo) : asset('/images/logo.png') }}" alt="{{$book->name}}" >
                                 </div>
                                 <div class="p-5 -mt-8 rounded-2xl bg-white relative">
                                     <div class="flex flex-row items-center space-x-1">

@@ -18,6 +18,10 @@ class CreateBooksTable extends Migration
             $table->string('name');
             $table->string('category');
             $table->string('writer');
+            $table->string('type');
+            $table->text('description')->nullable();
+            $table->float('price')->nullable();
+            $table->string('photo')->nullable();
             $table->bigInteger('user_id');
             $table->timestamps();
         });

@@ -51,19 +51,32 @@
                       <li class="nav-item">
                         <a class="nav-link" href="#"> About</a>
                       </li>
+                      @auth
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('books.index')}}"> Browse Books</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{{route('profile')}}"> Profile</a>
+                      </li>
+                      @endauth
+                      @guest
                       <li class="nav-item">
                         <a class="nav-link" href="{{route('register')}}">Register</a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="{{route('login')}}">Login</a>
                       </li>
+                      @endguest
                     </ul>
-                    <form class="search_form">
-                      <input type="text" class="form-control" placeholder="Search here...">
+                    @auth
+                    
+                    <form class="search_form" action="{{route("books.index")}}">
+                      <input type="text" class="form-control" name="search" placeholder="Search here...">
                       <button class="" type="submit">
                         <i class="fa fa-search" aria-hidden="true"></i>
                       </button>
                     </form>
+                    @endauth
                   </div>
                 </nav>
               </div>
@@ -419,49 +432,7 @@
           </section>
         
           <!-- end client section -->
-        
-          <!-- contact section -->
-        
-          <section class="contact_section layout_padding">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-6 ">
-                  <div class="heading_container ">
-                    <h2 class="">
-                      Contact Us
-                    </h2>
-                  </div>
-                  <form action="#">
-                    <div>
-                      <input type="text" placeholder="Name" />
-                    </div>
-                    <div>
-                      <input type="email" placeholder="Email" />
-                    </div>
-                    <div>
-                      <input type="text" placeholder="Pone Number" />
-                    </div>
-                    <div>
-                      <input type="text" class="message-box" placeholder="Message" />
-                    </div>
-                    <div class="btn-box">
-                      <button>
-                        SEND
-                      </button>
-                    </div>
-                  </form>
-                </div>
-                <div class="col-md-6">
-                  <div class="img-box">
-                    <img src="images/contact-img.png" alt="">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        
-          <!-- end contact section -->
-        
+
           <!-- info section -->
         
           <section class="info_section layout_padding2">
