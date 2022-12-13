@@ -17,7 +17,7 @@ class BookController extends BaseController
      */
     public function index(Request $request)
     {
-        if (0 === strpos($request->headers->get('Content-Type'), 'application/json'))
+        if (0 === strpos($request->headers->get('Accept'), 'application/json'))
         {
             return $this->sendResponse(Book::with('user')->get(), 'Books reterived successfully.');
         }else{
@@ -99,7 +99,7 @@ class BookController extends BaseController
         $input['user_id'] = Auth::id();
         $book = Book::create($input);
 
-        if (0 === strpos($request->headers->get('Content-Type'), 'application/json'))
+        if (0 === strpos($request->headers->get('Accept'), 'application/json'))
         {
             return $this->sendResponse($book, 'Book created successfully.');
         }else{
@@ -115,7 +115,7 @@ class BookController extends BaseController
      */
     public function show(Book $book, Request $request)
     {
-        if (0 === strpos($request->headers->get('Content-Type'), 'application/json'))
+        if (0 === strpos($request->headers->get('Accept'), 'application/json'))
         {
             return $this->sendResponse($book->with('user')->findOrFail($book->id), 'Book retrieved successfully.');
         }else{

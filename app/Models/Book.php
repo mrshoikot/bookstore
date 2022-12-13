@@ -26,6 +26,7 @@ class Book extends Model
         'description',
         'price'
     ];
+    protected $appends = array('photo_url');
 
     function user() {
         return $this->belongsTo(User::class);
@@ -34,4 +35,11 @@ class Book extends Model
     function offers() {
         return $this->hasMany(Offer::class);
     }
+
+    public function getPhotoUrlAttribute()
+    {
+        return $this->photo ? asset('storage/photos/'.$this->photo) : asset('/images/logo.png');  
+    }
+
+
 }
