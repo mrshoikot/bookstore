@@ -19,7 +19,7 @@
                     </label>
                 </div>
                 <div class="mt-3">
-                    <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state" name="role_id">
+                    <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state" name="roler_id">
                         <option value="2">Individual</option>
                         <option value="3">Business</option>
                     </select>
